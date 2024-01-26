@@ -1,0 +1,165 @@
+import java.util.ArrayList;
+
+// Class utama untuk merepresentasikan kambing
+class Kambing {
+    private String nama;
+    private double beratAwal;
+    private double tinggiAwal;
+    private double panjangAwal;
+    private double berat;
+    private double tinggi;
+    private double panjang;
+    private boolean terjualMati;
+
+    // Constructor untuk inisialisasi data kambing saat beli awal
+    public Kambing(String nama, double berat, double tinggi, double panjang) {
+        this.nama = nama;
+        this.beratAwal = berat;
+        this.tinggiAwal = tinggi;
+        this.panjangAwal = panjang;
+        this.berat = beratAwal;
+        this.tinggi = tinggiAwal;
+        this.panjang = panjangAwal;
+        this.terjualMati = false;
+    }
+
+    // Getter dan setter untuk atribut kambing
+    public String getNama() {
+        return nama;
+    }
+
+    public double getBeratAwal() {
+        return beratAwal;
+    }
+
+    public double getTinggiAwal() {
+        return tinggiAwal;
+    }
+
+    public double getPanjangAwal() {
+        return panjangAwal;
+    }
+
+    public double getBerat() {
+        return berat;
+    }
+
+    public void setBerat(double berat) {
+        this.berat = berat;
+    }
+
+    public double getTinggi() {
+        return tinggi;
+    }
+
+    public void setTinggi(double tinggi) {
+        this.tinggi = tinggi;
+    }
+
+    public double getPanjang() {
+        return panjang;
+    }
+
+    public void setPanjang(double panjang) {
+        this.panjang = panjang;
+    }
+
+    public boolean isTerjualMati() {
+        return terjualMati;
+    }
+
+    public void setTerjualMati(boolean terjualMati) {
+        this.terjualMati = terjualMati;
+    }
+
+    // Metode untuk menampilkan informasi kambing
+    public void displayInfo() {
+        System.out.println("Nama: " + nama);
+        System.out.println("Berat Awal: " + beratAwal + " kg");
+        System.out.println("Tinggi Awal: " + tinggiAwal + " cm");
+        System.out.println("Panjang Awal: " + panjangAwal + " cm");
+        System.out.println("Berat Sekarang: " + berat + " kg");
+        System.out.println("Tinggi Sekarang: " + tinggi + " cm");
+        System.out.println("Panjang Sekarang: " + panjang + " cm");
+        System.out.println("Terjual/Mati: " + (terjualMati ? "Ya" : "terjual"));
+        System.out.println("==================");
+    }
+}
+
+// Class untuk merepresentasikan perkembangan kambing setiap bulan
+class PerkembanganBulanan {
+    private int bulan;
+    private Kambing kambing;
+
+    // Constructor untuk inisialisasi data perkembangan bulanan
+    public PerkembanganBulanan(int bulan, Kambing kambing) {
+        this.bulan = bulan;
+        this.kambing = kambing;
+    }
+
+    // Metode untuk menampilkan informasi perkembangan bulanan
+    public void displayInfo() {
+        System.out.println("Bulan: " + bulan);
+        kambing.displayInfo();
+    }
+}
+
+// Class untuk merepresentasikan data perkembangan kambing secara keseluruhan
+class DataPerkembangan {
+    private ArrayList<PerkembanganBulanan> daftarPerkembangan = new ArrayList<>();
+
+    // Metode untuk menambahkan perkembangan bulanan ke daftar
+    public void tambahPerkembangan(PerkembanganBulanan perkembangan) {
+        daftarPerkembangan.add(perkembangan);
+    }
+
+    // Metode untuk menampilkan informasi semua perkembangan dalam daftar
+    public void tampilkanSemuaInfo() {
+        for (PerkembanganBulanan perkembangan : daftarPerkembangan) {
+            perkembangan.displayInfo();
+            System.out.println("==================");
+        }
+    }
+}
+
+public class ProgramPerkembanganKambing {
+    public static void main(String[] args) {
+        // Membuat objek Kambing saat beli awal
+        Kambing kambingPakSlamet = new Kambing("Kambing Pak Slamet", 20.5, 60, 80);
+
+        // Membuat objek DataPerkembangan
+        DataPerkembangan dataPerkembangan = new DataPerkembangan();
+
+        // Menyimpan perkembangan setiap bulan dalam ArrayList
+        ArrayList<PerkembanganBulanan> perkembanganBulananList = new ArrayList<>();
+
+        // Menambahkan perkembangan bulanan dan cek status terjual/mati setiap bulan
+        for (int bulan = 1; bulan <= 7; bulan++) {
+            PerkembanganBulanan perkembanganBulanan = new PerkembanganBulanan(bulan, kambingPakSlamet);
+            dataPerkembangan.tambahPerkembangan(perkembanganBulanan);
+            perkembanganBulananList.add(perkembanganBulanan);
+
+            // Melakukan update perkembangan kambing setiap bulan
+            kambingPakSlamet.setBerat(kambingPakSlamet.getBerat() + 1.5);
+            kambingPakSlamet.setTinggi(kambingPakSlamet.getTinggi() + 2);
+            kambingPakSlamet.setPanjang(kambingPakSlamet.getPanjang() + 3);
+
+            // Cek apakah kambing sudah terjual/mati
+            if (kambingPakSlamet.isTerjualMati()) {
+                System.out.println("Kambing terjual/mati pada bulan ke-" + bulan);
+                break;
+            }
+        }
+
+        // Menampilkan informasi semua perkembangan dalam daftar
+        dataPerkembangan.tampilkanSemuaInfo();
+
+        // Menampilkan informasi perkembangan setiap bulan dari bulan 1 sampai terjual/mati
+        System.out.println("Perkembangan setiap bulan hingga terjual/mati:");
+        for (PerkembanganBulanan perkembanganBulanan : perkembanganBulananList) {
+            perkembanganBulanan.displayInfo();
+            System.out.println("==================");
+        }
+    }
+}
+
